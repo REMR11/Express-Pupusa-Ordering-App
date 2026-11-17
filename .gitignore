@@ -19,6 +19,7 @@
 
 # production
 /build
+/.opencode/node_modules/
 
 # misc
 .DS_Store
