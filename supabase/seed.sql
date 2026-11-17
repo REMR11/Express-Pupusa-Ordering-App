@@ -1,0 +1,14 @@
+-- Catálogo inicial = PUPUSAS de src/lib/checkout.ts
+insert into public.products (key, name, description, price_cents, image_url, badge, default_qty, sort_order) values
+  ('revueltas', 'Revuelta', 'Chicharrón de la casa, frijol colado y quesillo derretido.', 135, 'https://lh3.googleusercontent.com/aida-public/AB6AXuDUOrbPiDPrFZIwi_Ikbp5fgsqO3ohCWGplMPn5fGneeilo-u8rP9H7bp1GM8keyIF7WDHUMj-2g0QGDuq2ilA4IufbiXFsL9omFenfYpf1lO4vlYXzL5fcrgBPk9LQOEMDdLsU7pOm6CO9zlE4MNnMLEWhlHy8HkL89_mi7qYhI4lL0bLoKXuKNLgTykEd4Amix6IWAXoEfSjsQvFH4HQKUr1alZ6dLebxXuwgBT4', '{"label": "Más pedida", "tone": "popular", "icon": "star"}'::jsonb, 2, 1),
+  ('loroco', 'Queso con Loroco', 'Quesillo artesanal cremoso y flor de loroco fresca fragante.', 150, 'https://lh3.googleusercontent.com/aida-public/AB6AXuC-1uS0iA51okp0NTSyiucbOvOct6AXwV2YB9aMMe-x9spsXL7ZN1FvvDbOAczz3bjbitnmGOQ0BsXgHDr6zQdgWNEvoG2yXTuR7W3yqcO3_iFxTow3WZ-53enGukeDw0XlmKKs_Vz66M9eol6Myv2xrbwxDHF-TGBZ3t6UpBNl6VUs-sT_XaUmm2bRAcBNUP5mq8hL2UMS9d8QhyclDIb16fNXWF3SwKh1MthN6Ds', '{"label": "Favorito", "tone": "neutral"}'::jsonb, 1, 2),
+  ('frijol', 'Frijol con Queso', 'Frijoles rojos de seda fritos a fuego lento con suave queso.', 125, 'https://lh3.googleusercontent.com/aida-public/AB6AXuCNVF-EDGRtOPZNS1nbNICHn9QZAcIBbhexf657Kku6gAYrWfnh-6UL0qK8FzhSollN5SQdBj3RylngNHigpITUqG-6UpM3EEaZiG6fdZru3bYGNHd2HzkfAW_n-9cfWFM4plXuSPTcua2wfwvL9eqazuiV_NdQ6vW5wgzikJAlwLnQzCeuDFgqSFzbogO1jna3czAtyCXsDIyvj2xGTgIB4or_vyEctBKfx8WIiYk', '{"label": "Clásico", "tone": "neutral"}'::jsonb, 0, 3),
+  ('chicharron', 'Chicharrón con Queso', 'Chicharrón molido sazonado con tomate criollo y quesillo.', 140, 'https://lh3.googleusercontent.com/aida-public/AB6AXuBvjJlBMrof0SC_4Vc7Ab8YHuhpA7tXNzrpfo11T-0Z57F6JNxwuJTpgSyMGFo5ifNq6KfemWniIZPMzYdEHZ2pxSF5eQBaHISJGIe_JCq7EpBzdvJCVc7cQL4ACFPiV3TDuXCYM0EJRFtEKUK8zQuknmM_pW7BTwRhzxYEPc7ZO7qycxKH5iywxhTtZcv_a3ivr15fSmWSZ0EbvBC9y9jxc5QL-bmPBV0UJiD5ZDY', null, 0, 4),
+  ('especial', 'Jalapeño, Queso y Ayote', 'Toque picantito con ayotillo tierno rallado y quesillo abundante.', 175, 'https://lh3.googleusercontent.com/aida-public/AB6AXuCQ5VemAvjJ0KREmIa38iJ0oIYyR13RleM_izVR2D6Utr72p77N_vlS2WakkvmWSYqeO_acVayDv4U1j18BiPg8lmJjqqtNVkn-Y_eCvG_jmjLmoBN1hYkMPiDTJN1RI3Mf_1jn44mDhKoluCdAXKIr0Caq5vZAkBxcXrNvVkY6gdCkg--S43cO75EG47ryNq-dKaftwknecOKpqXYH5tJVYp27UPFJRIqFsXgAcH8', '{"label": "Especial", "tone": "special", "icon": "whatshot"}'::jsonb, 0, 5)
+on conflict (key) do update set
+  name = excluded.name, description = excluded.description, price_cents = excluded.price_cents,
+  image_url = excluded.image_url, badge = excluded.badge, default_qty = excluded.default_qty,
+  sort_order = excluded.sort_order;
+
+-- Zona de envío de ejemplo (ajustar según Q5; con una sola zona = tarifa fija)
+-- insert into public.delivery_zones (name, fee_cents) values ('Zona centro', 100);

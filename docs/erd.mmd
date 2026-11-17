@@ -1,0 +1,103 @@
+erDiagram
+  AUTH_USERS ||--|| PROFILES : "1:1 (trigger)"
+  PROFILES |o--o{ ORDERS : "customer_id (null = invitado)"
+  PROFILES |o--o{ DELIVERIES : "courier_id"
+  PROFILES |o--o{ ORDER_STATUS_EVENTS : "changed_by"
+  ORDERS ||--|{ ORDER_ITEMS : "líneas"
+  PRODUCTS ||--o{ ORDER_ITEMS : "product_key"
+  ORDERS ||--o| DELIVERIES : "solo si delivery"
+  DELIVERY_ZONES |o--o{ DELIVERIES : "zone_id"
+  ORDERS ||--|{ ORDER_STATUS_EVENTS : "historial"
+
+  AUTH_USERS {
+    uuid id PK
+    text email
+    jsonb raw_user_meta_data
+  }
+  PROFILES {
+    uuid id PK, FK
+    text full_name
+    text phone "8 dígitos"
+    user_role role "customer|staff|admin|courier"
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  PRODUCTS {
+    text key PK "revueltas, loroco..."
+    text name
+    text description
+    int price_cents "> 0"
+    text image_url
+    jsonb badge "label, tone, icon"
+    int default_qty
+    int sort_order
+    bool is_active
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  DELIVERY_ZONES {
+    smallint id PK
+    text name UK
+    int fee_cents
+    bool is_active
+    int sort_order
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  ORDERS {
+    uuid id PK
+    text code UK "6 chars, p.ej. K7P2QX"
+    uuid tracking_token "secreto del invitado"
+    uuid customer_id FK "nullable"
+    text customer_name
+    text customer_phone "8 dígitos"
+    fulfillment_type fulfillment "pickup|delivery"
+    curtido_type curtido "normal|extra"
+    salsa_type salsa "bote|bolsa"
+    text slot "15|30|45|custom"
+    timestamptz scheduled_for
+    text notes "<= 280"
+    order_status status
+    payment_status payment_status "unpaid|paid|refunded"
+    payment_method payment_method "cash|transfer"
+    int subtotal_cents "recalculado en BD"
+    int delivery_fee_cents "snapshot de zona"
+    int total_cents "generada"
+    timestamptz paid_at
+    timestamptz completed_at
+    timestamptz cancelled_at
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  ORDER_ITEMS {
+    bigint id PK
+    uuid order_id FK
+    text product_key FK
+    masa_type masa "maiz|arroz (por línea)"
+    text product_name "snapshot"
+    int unit_price_cents "snapshot"
+    int quantity "1..50"
+    int line_total_cents "generada"
+  }
+  DELIVERIES {
+    uuid order_id PK, FK
+    smallint zone_id FK
+    text address
+    text reference
+    uuid courier_id FK
+    delivery_status status "pending|assigned|picked_up|delivered|failed"
+    timestamptz assigned_at
+    timestamptz picked_up_at
+    timestamptz delivered_at
+    text failure_reason
+    timestamptz created_at
+    timestamptz updated_at
+  }
+  ORDER_STATUS_EVENTS {
+    bigint id PK
+    uuid order_id FK
+    order_status from_status
+    order_status to_status
+    uuid changed_by FK
+    timestamptz created_at
+  }

@@ -161,6 +161,8 @@ sequenceDiagram
 ---
 ## 5. Modelo de datos
 
+> **Actualizado:** el esquema final (diagrama ER y cambios respecto a este borrador) está en [`docs/DB-DIAGRAM.md`](./DB-DIAGRAM.md), y las migraciones aplicables en `supabase/migrations/`. Si difieren de esta sección, mandan esos archivos.
+
 ### 5.1 Enums
 
 | Enum | Valores | Origen en el código actual |
@@ -342,6 +344,8 @@ Nadie puede hacer `DELETE` de pedidos desde el cliente (se cancelan). Los invita
 ---
 
 ## 7. Migraciones SQL (borrador propuesto)
+
+> **Actualizado:** el esquema final (diagrama ER y cambios respecto a este borrador) está en [`docs/DB-DIAGRAM.md`](./DB-DIAGRAM.md), y las migraciones aplicables en `supabase/migrations/`. Si difieren de esta sección, mandan esos archivos.
 
 Ubicación: `supabase/migrations/`. Aplicar en orden desde el **SQL Editor** de Supabase o con el MCP de Supabase (`apply_migration`). Son borradores: revisar con `get_advisors` (security/performance) después de aplicar.
 
